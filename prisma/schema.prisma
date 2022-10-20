@@ -1,0 +1,61 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id Int @id @default(autoincrement())
+  email String @unique
+  fid String @unique
+  telephones Telephone[]
+  forwarding_number String?
+  validation_code ValidationCode?
+  outgoing_share_requests ShareRequest[] @relation(name: "outgoing_share_requests")
+  incoming_share_requests ShareRequest[] @relation(name: "incoming_share_requests")
+  created_at DateTime @default(now())
+}
+
+model Telephone {
+  id Int @id @default(autoincrement())
+  number String @unique
+  user_id Int
+  user User @relation(fields: [user_id], references: [id])
+  messages Message[]
+  created_at DateTime @default(now())
+}
+
+model Message {
+  id Int @id @default(autoincrement())
+  body String
+  from String
+  telephone_id Int
+  telephone Telephone @relation(fields: [telephone_id], references: [id])
+  created_at DateTime @default(now())
+}
+
+model ValidationCode {
+  id Int @id @default(autoincrement())
+  code String @unique
+  forwarding_number String
+  user_id Int @unique
+  user User @relation(fields: [user_id], references: [id])
+  created_at DateTime @default(now())
+}
+
+model ShareRequest {
+  id Int @id @default(autoincrement())
+  from_user_id Int
+  from User @relation(fields: [from_user_id], references: [id], name: "outgoing_share_requests")
+  to_user_id Int
+  to User @relation(fields: [to_user_id], references: [id], name: "incoming_share_requests")
+  completed Boolean
+
+  @@unique([from_user_id, to_user_id])
+}

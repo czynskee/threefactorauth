@@ -1,0 +1,31 @@
+{
+  "compilerOptions": {
+    "lib": ["es2020", "dom"],
+    "target": "es2019",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "outDir": "build",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "forceConsistentCasingInFileNames": true,
+    "sourceMap": true,
+    "strict": true,
+    "strictPropertyInitialization": false,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "resolveJsonModule": true,
+    "plugins": [{ "name": "typescript-tslint-plugin" }],
+    "incremental": true,
+    "allowJs": true,
+    "composite": true,
+    "declarationMap": true,
+    "rootDir": ".",
+    "jsx": "react",
+    "jsxFactory": "Purview.createElem",
+    "esModuleInterop": true
+  },
+  "include": ["src/**/*", "test/**/*", "types/**/*"],
+  "exclude": ["node_modules"]
+}

@@ -1,0 +1,16 @@
+#!/bin/bash
+
+set -euo pipefail
+
+ESC=$(printf '\033')
+
+# Frontend assets are built in memory and served by webpack-dev-server
+yarn -s webpack-dev-server 2>&1 | sed -e "s/^/$ESC[31;1m[webpack]$ESC[0m /" &
+
+# Typescript compiler watches src/ and outputs to build/
+yarn -s tsc -b -w 2>&1 | sed -e "s/^/$ESC[33;1m[tsc]$ESC[0m /" &
+
+# Nodemon restarts dev server if there are changes in build/
+yarn -s nodemon --no-colors build/src/index.js 2>&1 |
+  sed -e "s/^/$ESC[36;1m[koa]$ESC[0m /" &
+wait
