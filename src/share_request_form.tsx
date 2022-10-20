@@ -99,11 +99,7 @@ export class ShareRequestForm extends Purview.Component<
             value={recipientEmail ?? ""}
             onChange={this.onChange.bind(this)}
           />
-          <button
-            // onClick={this.handleSubmit.bind(this)}
-            css={css(buttonCSS, { marginLeft: "1rem" })}
-            role="button"
-          >
+          <button css={css(buttonCSS, { marginLeft: "1rem" })} role="button">
             Invite
           </button>
         </form>
