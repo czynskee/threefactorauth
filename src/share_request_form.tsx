@@ -100,7 +100,7 @@ export class ShareRequestForm extends Purview.Component<
             onChange={this.onChange.bind(this)}
           />
           <button
-            onClick={this.handleSubmit.bind(this)}
+            // onClick={this.handleSubmit.bind(this)}
             css={css(buttonCSS, { marginLeft: "1rem" })}
             role="button"
           >
