@@ -94,24 +94,28 @@ export class App extends Purview.Component<AppProps, AppState> {
   }
 
   subscribe(telephones: Telephone[]): void {
-    const { user } = this.state;
-
     for (const telephone of telephones) {
       messageEventEmitter.on(
         NEW_MESSAGE_EVENT + String(telephone.id),
-        async () => {
-          await this.setState({
-            telephoneMessages: await getTelephoneMessages(user),
-          });
-        }
+        this.handleMessageEvent
       );
     }
   }
 
   unsubscribe(telephones: Telephone[]): void {
     for (const telephone of telephones) {
-      messageEventEmitter.off(NEW_MESSAGE_EVENT + String(telephone.id));
+      messageEventEmitter.off(
+        NEW_MESSAGE_EVENT + String(telephone.id),
+        this.handleMessageEvent
+      );
     }
+  }
+
+  async handleMessageEvent(): Promise<void> {
+    const { user } = this.state;
+    await this.setState({
+      telephoneMessages: await getTelephoneMessages(user),
+    });
   }
 
   async refreshShareData(): Promise<void> {
